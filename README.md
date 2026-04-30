@@ -65,11 +65,11 @@
 ```
 LibraryLendingSystem/
 ├── DB/
-│   ├── init_database.sql           # 資料庫自動初始化腳本
-│   ├── DDL.sql                     # 資料庫結構定義
-│   └── DML.sql                     # 測試資料
-├── setup.bat                       # Windows 自動安裝腳本
-├── setup.sh                        # Mac/Linux 自動安裝腳本
+│   ├── setup_database.sql          # 資料庫初始化腳本
+│   ├── DDL.sql                     # 資料庫結構定義（資料表 + Stored Procedures）
+│   ├── DML.sql                     # 測試資料
+│   ├── run_all.sql                 # 一鍵執行所有腳本
+│   └── README_DATABASE_SETUP.md    # 資料庫建置詳細說明
 ├── src/main/java/com/example/library/
 │   ├── config/                     # 配置類
 │   │   └── SecurityConfig.java
@@ -117,66 +117,57 @@ LibraryLendingSystem/
 └── README.md
 ```
 
+## 最近更新 (2026-04-30)
+
+### ✅ 解決編碼問題
+- 修正資料庫字元編碼設定,確保中文註冊功能正常運作
+- 更新 JDBC 連線參數以支援 MySQL Connector/J 9.x
+- 所有資料表使用 `utf8mb4_unicode_ci` 排序規則
+
+詳細的資料庫建置步驟請參考 `DB/README_DATABASE_SETUP.md`
+
 ## 快速開始
 
 ### 前置需求
 - JDK 17+
 - MySQL 8.0+
 - Node.js 18+
-- Maven 或 Gradle
+- Gradle (已包含 Gradle Wrapper)
 
-### 自動安裝（推薦）
-
-#### Windows 使用者
-```bash
-# 雙擊執行或在命令列執行
-setup.bat
-```
-
-#### Mac/Linux 使用者
-```bash
-# 賦予執行權限
-chmod +x setup.sh
-
-# 執行安裝腳本
-./setup.sh
-```
-
-安裝腳本會自動：
-1. ✅ 檢查 MySQL 服務狀態
-2. ✅ 建立資料庫 `library_lending_system`
-3. ✅ 建立所有資料表和 Stored Procedures
-4. ✅ 可選擇載入測試資料
-5. ✅ 自動更新 `application.properties` 設定檔
-
-### 手動安裝
+### 安裝步驟
 
 #### 1. 建立資料庫
 
+**一鍵建立（推薦）**:
 ```bash
-# 登入 MySQL
-mysql -u root -p
-
-# 執行初始化腳本（會自動建立資料庫、資料表和 Stored Procedures）
-source DB/init_database.sql;
-
-# 可選：載入測試資料
-source DB/DML.sql;
+mysql -u root -p --default-character-set=utf8mb4 < DB/run_all.sql
 ```
 
-#### 2. 設定後端
+**分步驟執行**:
+```bash
+# 步驟 1: 建立資料庫
+mysql -u root -p --default-character-set=utf8mb4 < DB/setup_database.sql
 
-編輯 `src/main/resources/application.properties`：
+# 步驟 2: 建立資料表和 Stored Procedures
+mysql -u root -p --default-character-set=utf8mb4 library_lending_system < DB/DDL.sql
+
+# 步驟 3: 插入測試資料
+mysql -u root -p --default-character-set=utf8mb4 library_lending_system < DB/DML.sql
+```
+
+> 💡 **提示**:
+> - 必須加上 `--default-character-set=utf8mb4` 以支援中文
+> - 詳細說明請參考 `DB/README_DATABASE_SETUP.md`
+
+#### 2. 設定後端（如需修改密碼）
+
+編輯 `src/main/resources/application.properties`:
 
 ```properties
-# 資料庫連線資訊
-spring.datasource.url=jdbc:mysql://localhost:3306/library_lending_system?useSSL=false&serverTimezone=Asia/Taipei
-spring.datasource.username=root
-spring.datasource.password=your_password
-
-# JWT 密鑰 (請修改為安全的隨機字串)
-jwt.secret=your-256-bit-secret-key-change-this-in-production
+spring.datasource.password=your_mysql_password
 ```
+
+其他配置已正確設定,無需修改。
 
 #### 3. 安裝前端依賴
 
@@ -189,16 +180,13 @@ npm install
 
 #### 啟動後端
 ```bash
-# 使用 Maven
-./mvnw spring-boot:run
-
-# 或使用 Gradle
-./gradlew bootRun
+./gradlew bootRun          # Mac/Linux
+gradlew.bat bootRun        # Windows
 ```
 
-後端服務會在 `http://localhost:8080/api` 啟動
+後端服務會在 `http://localhost:8080` 啟動
 
-#### 啟動前端
+#### 啟動前端（開啟新的終端視窗）
 ```bash
 cd frontend
 npm run dev
@@ -206,7 +194,7 @@ npm run dev
 
 前端服務會在 `http://localhost:5173` 啟動
 
-### 完成！
+### 🎉 完成！
 開啟瀏覽器訪問 `http://localhost:5173` 即可使用系統
 
 ## API 文檔
@@ -292,17 +280,14 @@ GET /api/borrowing/history
 Authorization: Bearer {token}
 ```
 
-## 測試帳號
+## 測試資料
 
-系統已預設建立測試使用者（密碼為示例，實際需要經過雜湊）：
+執行 `DML.sql` 後會自動建立：
+- 📚 10 種書籍（包含程式設計、自我成長等類別）
+- 📦 23 個庫存項目
+- 👤 5 個測試使用者
 
-| 手機號碼 | 姓名 |
-|---------|------|
-| 0912345678 | 張小明 |
-| 0923456789 | 李美華 |
-| 0934567890 | 王大衛 |
-
-**注意**: 測試資料中的密碼欄位為示例，實際使用時請重新註冊帳號。
+**建議**: 使用系統的註冊功能建立新帳號進行測試
 
 ## 安全性說明
 
@@ -330,29 +315,46 @@ Authorization: Bearer {token}
 - 確保資料一致性
 - 失敗時自動回滾
 
-## 注意事項
+## 常見問題
 
-1. **生產環境部署前**:
-   - 修改 `jwt.secret` 為安全的隨機字串
-   - 修改資料庫密碼
-   - 設定適當的 CORS 允許來源
-   - 啟用 HTTPS
+### ❌ 中文亂碼
+確保建立資料庫時使用 `--default-character-set=utf8mb4` 參數
 
-2. **資料庫優化**:
-   - 已建立適當的索引
-   - 可根據需求調整連線池大小
+### ❌ 連線失敗
+檢查 `application.properties` 中的 MySQL 密碼是否正確
 
-3. **前端部署**:
-   ```bash
-   cd frontend
-   npm run build
-   # 將 dist 目錄部署到 Web Server
-   ```
+### ❌ Port 衝突
+修改 `application.properties` 中的 `server.port=8080` 為其他 port
 
-## 開發團隊
+### ❌ Stored Procedure 錯誤
+重新執行 `DB/DDL.sql`
 
-本專案為圖書借閱系統示範專案。
+詳細問題排查請參考 `DB/README_DATABASE_SETUP.md`
 
-## 授權
+## 技術細節
 
-本專案僅供學習和參考使用。
+### 資料庫
+- 使用 `utf8mb4_unicode_ci` 排序規則，支援中文和 emoji
+- MySQL Connector/J 9.x 使用 `connectionCollation` 參數
+- 7 個 Stored Procedures 處理核心業務邏輯
+- 已建立適當索引優化查詢效能
+
+### 前端部署
+```bash
+cd frontend
+npm run build
+# 將 dist 目錄部署到 Web Server (如 Nginx)
+```
+
+### 生產環境建議
+- 修改 `jwt.secret` 為安全的隨機字串
+- 修改資料庫密碼
+- 啟用 HTTPS
+- 設定適當的 CORS 來源
+- 定期備份資料庫
+
+---
+
+**專案建立**: 圖書借閱系統示範專案
+**最後更新**: 2026-04-30 - 修正編碼問題並優化資料庫建置流程
+**授權**: 僅供學習和參考使用
