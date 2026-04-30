@@ -280,7 +280,7 @@ BEGIN
 
         -- 更新庫存狀態
         UPDATE inventory
-        SET status = 'PROCESSING', updated_at = NOW()
+        SET status = 'AVAILABLE', updated_at = NOW()
         WHERE inventory_id = v_inventory_id;
 
         SET p_result_code = 0;

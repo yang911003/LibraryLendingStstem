@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="color: white; margin: 30px 0;">我的借閱</h1>
+    <h1 style="color: #2c5282; margin: 30px 0 20px 0; font-size: 28px; font-weight: 600;">借閱紀錄管理</h1>
     
     <div class="card">
       <div class="tabs">

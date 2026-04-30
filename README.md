@@ -65,8 +65,11 @@
 ```
 LibraryLendingSystem/
 ├── DB/
+│   ├── init_database.sql           # 資料庫自動初始化腳本
 │   ├── DDL.sql                     # 資料庫結構定義
 │   └── DML.sql                     # 測試資料
+├── setup.bat                       # Windows 自動安裝腳本
+├── setup.sh                        # Mac/Linux 自動安裝腳本
 ├── src/main/java/com/example/library/
 │   ├── config/                     # 配置類
 │   │   └── SecurityConfig.java
@@ -114,32 +117,54 @@ LibraryLendingSystem/
 └── README.md
 ```
 
-## 安裝與執行
+## 快速開始
 
 ### 前置需求
 - JDK 17+
 - MySQL 8.0+
 - Node.js 18+
-- Gradle 7+
+- Maven 或 Gradle
 
-### 1. 建立資料庫
+### 自動安裝（推薦）
+
+#### Windows 使用者
+```bash
+# 雙擊執行或在命令列執行
+setup.bat
+```
+
+#### Mac/Linux 使用者
+```bash
+# 賦予執行權限
+chmod +x setup.sh
+
+# 執行安裝腳本
+./setup.sh
+```
+
+安裝腳本會自動：
+1. ✅ 檢查 MySQL 服務狀態
+2. ✅ 建立資料庫 `library_lending_system`
+3. ✅ 建立所有資料表和 Stored Procedures
+4. ✅ 可選擇載入測試資料
+5. ✅ 自動更新 `application.properties` 設定檔
+
+### 手動安裝
+
+#### 1. 建立資料庫
 
 ```bash
 # 登入 MySQL
 mysql -u root -p
 
-# 建立資料庫
-CREATE DATABASE library_lending_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE library_lending_system;
+# 執行初始化腳本（會自動建立資料庫、資料表和 Stored Procedures）
+source DB/init_database.sql;
 
-# 執行 DDL 建立資料表和 Stored Procedures
-source DB/DDL.sql;
-
-# 執行 DML 插入測試資料
+# 可選：載入測試資料
 source DB/DML.sql;
 ```
 
-### 2. 設定後端
+#### 2. 設定後端
 
 編輯 `src/main/resources/application.properties`：
 
@@ -153,33 +178,36 @@ spring.datasource.password=your_password
 jwt.secret=your-256-bit-secret-key-change-this-in-production
 ```
 
-### 3. 啟動後端
-
-```bash
-# 使用 Gradle 建置並執行
-./gradlew bootRun
-
-# 或者先建置再執行
-./gradlew build
-java -jar build/libs/LibraryLendingSystem-0.0.1-SNAPSHOT.jar
-```
-
-後端服務會在 `http://localhost:8080/api` 啟動
-
-### 4. 安裝前端依賴
+#### 3. 安裝前端依賴
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 5. 啟動前端
+### 啟動應用程式
 
+#### 啟動後端
 ```bash
+# 使用 Maven
+./mvnw spring-boot:run
+
+# 或使用 Gradle
+./gradlew bootRun
+```
+
+後端服務會在 `http://localhost:8080/api` 啟動
+
+#### 啟動前端
+```bash
+cd frontend
 npm run dev
 ```
 
 前端服務會在 `http://localhost:5173` 啟動
+
+### 完成！
+開啟瀏覽器訪問 `http://localhost:5173` 即可使用系統
 
 ## API 文檔
 

@@ -6,7 +6,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f5f5;
   min-height: 100vh;
   color: #333;
 }
@@ -23,9 +23,9 @@ body {
 
 /* 導航列樣式 */
 .navbar {
-  background: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 15px 0;
+  background: #2c5282;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 0;
 }
 
 .navbar-content {
@@ -35,12 +35,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 60px;
 }
 
 .navbar-brand {
-  font-size: 24px;
-  font-weight: bold;
-  color: #667eea;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
 }
 
 .navbar-menu {
@@ -51,27 +53,39 @@ body {
 
 .navbar-menu a {
   text-decoration: none;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
-  transition: color 0.3s;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 
 .navbar-menu a:hover {
-  color: #667eea;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navbar-menu a.router-link-active {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .navbar-user {
-  color: #667eea;
+  color: white;
   font-weight: 500;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 /* 卡片樣式 */
 .card {
   background: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
   margin: 20px 0;
+  border: 1px solid #e0e0e0;
 }
 
 /* 表單樣式 */
@@ -88,37 +102,42 @@ body {
 
 .form-control {
   width: 100%;
-  padding: 12px 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
   font-size: 14px;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #2c5282;
+  box-shadow: 0 0 0 2px rgba(44, 82, 130, 0.1);
 }
 
 /* 按鈕樣式 */
 .btn {
-  padding: 12px 24px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 3px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2c5282;
   color: white;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  background: #234166;
+}
+
+.btn-primary:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
@@ -172,15 +191,19 @@ body {
 
 .book-card {
   background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #e5e5e5;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-color: #2c5282;
 }
 
 .book-title {
@@ -202,7 +225,7 @@ body {
 }
 
 .book-available {
-  color: #28a745;
+  color: #2c5282;
   font-weight: 500;
   margin: 10px 0;
 }
@@ -216,10 +239,11 @@ body {
 
 .record-card {
   background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-left: 4px solid #667eea;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #e5e5e5;
+  border-left: 4px solid #2c5282;
 }
 
 .record-card.overdue {
@@ -263,8 +287,8 @@ body {
 .loading {
   text-align: center;
   padding: 40px;
-  color: #667eea;
-  font-size: 18px;
+  color: #666;
+  font-size: 16px;
 }
 
 /* 錯誤訊息 */
@@ -308,8 +332,8 @@ body {
 }
 
 .tab.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: #2c5282;
+  border-bottom-color: #2c5282;
   font-weight: 500;
 }
 

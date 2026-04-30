@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="card" style="max-width: 500px; margin: 100px auto;">
-      <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">登入</h2>
+    <div class="card" style="max-width: 450px; margin: 80px auto;">
+      <h2 style="text-align: center; margin-bottom: 24px; color: #2c5282; font-size: 24px; font-weight: 600;">使用者登入</h2>
       
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       
@@ -35,9 +35,9 @@
         </button>
       </form>
       
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 20px; color: #666;">
         還沒有帳號？
-        <router-link to="/register" style="color: #667eea; text-decoration: none; font-weight: 500;">
+        <router-link to="/register" style="color: #2c5282; text-decoration: none; font-weight: 500;">
           立即註冊
         </router-link>
       </div>

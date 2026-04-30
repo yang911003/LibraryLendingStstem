@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="color: white; margin: 30px 0;">書籍列表</h1>
+      <h1 style="color: #2c5282; margin: 30px 0 20px 0; font-size: 28px; font-weight: 600;">館藏書籍查詢</h1>
     
     <div class="card">
       <div class="search-box">
@@ -21,26 +21,28 @@
       
       <div v-else class="book-list">
         <div v-for="book in books" :key="book.isbn" class="book-card">
-          <div class="book-title">{{ book.name }}</div>
-          <div class="book-author">作者：{{ book.author }}</div>
-          <div class="book-info">ISBN：{{ book.isbn }}</div>
-          <div class="book-info" v-if="book.publisher">出版社：{{ book.publisher }}</div>
-          <div class="book-info" v-if="book.category">分類：{{ book.category }}</div>
-          <div class="book-available">可借數量：{{ book.availableCount }} 本</div>
-          <div class="book-info" style="margin-top: 10px; color: #666;">
-            {{ book.introduction ? book.introduction.substring(0, 100) + '...' : '暫無簡介' }}
+          <div style="flex: 1;">
+            <div class="book-title">{{ book.name }}</div>
+            <div class="book-author">作者：{{ book.author }}</div>
+            <div class="book-info">ISBN：{{ book.isbn }}</div>
+            <div class="book-info" v-if="book.publisher">出版社：{{ book.publisher }}</div>
+            <div class="book-info" v-if="book.category">分類：{{ book.category }}</div>
+            <div class="book-available">可借數量：{{ book.availableCount }} 本</div>
+            <div class="book-info" style="margin-top: 10px; color: #666;">
+              {{ book.introduction ? book.introduction.substring(0, 100) + '...' : '暫無簡介' }}
+            </div>
           </div>
-          <button class="btn btn-success" style="margin-top: 15px; width: 100%;" @click="borrowBook(book.isbn)">
+          <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" @click="borrowBook(book.isbn)">
             借閱
           </button>
         </div>
-      </div>
+      </div>F
     </div>
     
     <!-- 借閱對話框 -->
     <div v-if="showBorrowDialog" class="modal" @click.self="closeBorrowDialog">
       <div class="modal-content">
-        <h3 style="margin-bottom: 20px;">選擇要借閱的書籍</h3>
+        <h3 style="margin-bottom: 20px; color: #2c5282; font-weight: 600;">選擇借閱館藏</h3>
         
         <div v-if="loadingInventory" class="loading">載入中...</div>
         
@@ -49,9 +51,12 @@
         </div>
         
         <div v-else>
-          <div v-for="(item, index) in inventoryList" :key="item[0]" 
-               style="padding: 15px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; cursor: pointer;"
-               :style="{ borderColor: selectedInventoryId === item[0] ? '#667eea' : '#e0e0e0' }"
+          <div v-for="(item, index) in inventoryList" :key="item[0]"
+               style="padding: 12px; border: 1px solid #d0d0d0; border-radius: 4px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s;"
+               :style="{
+                 borderColor: selectedInventoryId === item[0] ? '#2c5282' : '#d0d0d0',
+                 backgroundColor: selectedInventoryId === item[0] ? '#f0f4f8' : 'white'
+               }"
                @click="selectedInventoryId = item[0]">
             <div style="font-weight: 500;">庫存編號：{{ item[0] }}</div>
             <div style="color: #666; font-size: 14px;">入庫時間：{{ formatDate(item[2]) }}</div>
@@ -179,11 +184,12 @@ onMounted(() => {
 
 .modal-content {
   background: white;
-  padding: 30px;
-  border-radius: 12px;
+  padding: 24px;
+  border-radius: 4px;
   max-width: 600px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 </style>
