@@ -138,32 +138,26 @@ LibraryLendingSystem/
 
 #### 1. 建立資料庫
 
-**一鍵建立（推薦）**:
-```bash
-mysql -u root -p --default-character-set=utf8mb4 < DB/run_all.sql
+**進入 MySQL 客戶端**:
+```powershell
+mysql -u root -p --default-character-set=utf8mb4
+之後會要求輸入自己的MYSQL密碼，輸入後按 Enter
 ```
 
-**分步驟執行**:
-```bash
-# 步驟 1: 建立資料庫
-mysql -u root -p --default-character-set=utf8mb4 < DB/setup_database.sql
-
-# 步驟 2: 建立資料表和 Stored Procedures
-mysql -u root -p --default-character-set=utf8mb4 library_lending_system < DB/DDL.sql
-
-# 步驟 3: 插入測試資料
-mysql -u root -p --default-character-set=utf8mb4 library_lending_system < DB/DML.sql
+**就可以執行 SQL 建立程序** (在 MySQL 提示符下):
+```sql
+source DB/setup_database.sql;
+source DB/DDL.sql;
+source DB/DML.sql;
 ```
 
-> 💡 **提示**:
-> - 必須加上 `--default-character-set=utf8mb4` 以支援中文
-> - 詳細說明請參考 `DB/README_DATABASE_SETUP.md`
+> 💡 **提示**: 必須加上 `--default-character-set=utf8mb4` 以支援中文
 
 #### 2. 設定後端（如需修改密碼）
 
 編輯 `src/main/resources/application.properties`:
 
-```properties
+```properties(在application.properties
 spring.datasource.password=your_mysql_password
 ```
 
