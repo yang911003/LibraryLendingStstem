@@ -124,8 +124,6 @@ LibraryLendingSystem/
 - 更新 JDBC 連線參數以支援 MySQL Connector/J 9.x
 - 所有資料表使用 `utf8mb4_unicode_ci` 排序規則
 
-詳細的資料庫建置步驟請參考 `DB/README_DATABASE_SETUP.md`
-
 ## 快速開始
 
 ### 前置需求
@@ -157,7 +155,7 @@ source DB/DML.sql;
 
 編輯 `src/main/resources/application.properties`:
 
-```properties(在application.properties
+```properties(將application.properties中的spring.datasource.password改成自己的SQL密碼)
 spring.datasource.password=your_mysql_password
 ```
 
@@ -165,8 +163,17 @@ spring.datasource.password=your_mysql_password
 
 #### 3. 安裝前端依賴
 
+**PowerShell (Windows)**:
+```powershell
+cd frontend
+Remove-Item -Recurse -Force node_modules, package-lock.json -ErrorAction SilentlyContinue
+npm install
+```
+
+**Mac/Linux**:
 ```bash
 cd frontend
+rm -rf node_modules package-lock.json
 npm install
 ```
 
