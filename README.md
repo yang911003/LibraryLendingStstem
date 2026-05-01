@@ -1,6 +1,6 @@
 # 圖書借閱系統 (Library Lending System)
 
-這是一個完整的線上圖書借閱系統，使用 Spring Boot + Vue.js 實作，包含使用者註冊、登入、書籍查詢、借還書等功能。
+一個完整的線上圖書借閱系統，使用 Spring Boot + Vue.js 實作，包含使用者註冊、登入、書籍查詢、借還書等功能。
 
 ## 技術架構
 
@@ -166,14 +166,12 @@ spring.datasource.password=your_mysql_password
 **PowerShell (Windows)**:
 ```powershell
 cd frontend
-Remove-Item -Recurse -Force node_modules, package-lock.json -ErrorAction SilentlyContinue
 npm install
 ```
 
 **Mac/Linux**:
 ```bash
 cd frontend
-rm -rf node_modules package-lock.json
 npm install
 ```
 
