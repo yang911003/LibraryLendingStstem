@@ -121,7 +121,7 @@ LibraryLendingSystem/
 - 更新 JDBC 參數支援 MySQL Connector/J 9.x
 - 全部資料表用 utf8mb4_unicode_ci
 
-## 快速開始
+## 專案開始
 
 ### 需要的環境
 - JDK 17+
